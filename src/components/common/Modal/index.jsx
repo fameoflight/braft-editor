@@ -108,10 +108,11 @@ export default class Modal extends React.Component {
 
     ReactDOM.render(childComponent, this.rootElement)
 
-    this.activeId = window.setImmediate(() => {
-      this.rootElement.classList.add('active')
-    })
-
+    if (typeof window !== 'undefined') {
+      this.activeId = window.setImmediate(() => {
+        this.rootElement.classList.add('active')
+      })
+    }
   }
 
   handleMouseDown = (event) => {

@@ -156,7 +156,7 @@ export const dropHandlers = (selectionState, dataTransfer, editor) => {
     return 'handled'
   }
 
-  if (window && window.__BRAFT_DRAGING__IMAGE__) {
+  if (typeof window !== 'undefined' && window.__BRAFT_DRAGING__IMAGE__) {
 
     let nextEditorState = EditorState.forceSelection(editor.state.editorState, selectionState)
     nextEditorState = ContentUtils.insertMedias(nextEditorState, [window.__BRAFT_DRAGING__IMAGE__.mediaData])

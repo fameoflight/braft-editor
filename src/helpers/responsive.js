@@ -20,16 +20,18 @@ export default {
 
 if (!responsiveHelperInited) {
 
-  window.addEventListener('resize', (event) => {
-    clearTimeout(debouce)
-    debouce = setTimeout(() => {
-      resizeEventHandlers.map((item) => {
-        typeof item.eventHandler === 'function' && item.eventHandler(event)
-      })
-      debouce = false
-    }, 100)
-  })
+  if (typeof window !== 'undefined') {
+    window.addEventListener('resize', (event) => {
+      clearTimeout(debouce)
+      debouce = setTimeout(() => {
+        resizeEventHandlers.map((item) => {
+          typeof item.eventHandler === 'function' && item.eventHandler(event)
+        })
+        debouce = false
+      }, 100)
+    })
 
-  responsiveHelperInited = true
+    responsiveHelperInited = true
+  }
 
 }

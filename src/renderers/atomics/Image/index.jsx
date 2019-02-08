@@ -154,16 +154,17 @@ export default class Image extends React.Component {
   }
 
   handleDragStart = () => {
-
     if (this.props.editor.editorProps.readOnly || this.props.editor.editorProps.disabled) {
       return false
     }
 
-    window.__BRAFT_DRAGING__IMAGE__ = {
-      block: this.props.block,
-      mediaData: {
-        type: 'IMAGE',
-        ...this.props.mediaData
+    if (typeof window !== 'undefined') {
+      window.__BRAFT_DRAGING__IMAGE__ = {
+        block: this.props.block,
+        mediaData: {
+          type: 'IMAGE',
+          ...this.props.mediaData
+        }
       }
     }
 
@@ -178,10 +179,11 @@ export default class Image extends React.Component {
   }
 
   handleDragEnd = () => {
+    if (typeof window !== 'undefined') {
+      window.__BRAFT_DRAGING__IMAGE__ = null
+    }
 
-    window.__BRAFT_DRAGING__IMAGE__ = null
     return false
-
   }
 
   executeCommand = (command) => {
@@ -233,8 +235,9 @@ export default class Image extends React.Component {
 
     link_target = link_target === '_blank' ? '' : '_blank'
     this.props.editor.setValue(ContentUtils.setMediaData(this.props.editorState, this.props.entityKey, { link_target }))
-    window.setImmediate(this.props.editor.forceRender)
-
+    if (typeof window !== 'undefined') {
+      window.setImmediate(this.props.editor.forceRender)
+    }
   }
 
   confirmImageLink = () => {
@@ -243,9 +246,10 @@ export default class Image extends React.Component {
 
     if (link !== null) {
       this.props.editor.setValue(ContentUtils.setMediaData(this.props.editorState, this.props.entityKey, { link }))
-      window.setImmediate(this.props.editor.forceRender)
+      if (typeof window !== 'undefined') {
+        window.setImmediate(this.props.editor.forceRender)
+      }
     }
-
   }
 
   handleSizeInputKeyDown = (e) => {
@@ -293,8 +297,9 @@ export default class Image extends React.Component {
     height !== null && (newImageSize.height = height)
 
     this.props.editor.setValue(ContentUtils.setMediaData(this.props.editorState, this.props.entityKey, newImageSize))
-    window.setImmediate(this.props.editor.forceRender)
-
+    if (typeof window !== 'undefined') {
+      window.setImmediate(this.props.editor.forceRender)
+    }
   }
 
   setImageFloat = (float) => {
